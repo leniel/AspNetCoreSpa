@@ -10,14 +10,17 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <UserSecretsId>aspnetcorespa-c23d27a4-eb88-4b18-9b77-2a93f3b15119</UserSecretsId>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc2-final" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="1.0.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.0-rc1-final" />
+    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
     <PackageReference Include="OpenIddict" Version="2.0.0-rc2-final" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc2-final" />
     <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc2-final" />
@@ -25,6 +28,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="2.4.0" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0-rc1-final" PrivateAssets="All" />
 
   </ItemGroup>
 
@@ -59,5 +67,9 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+
+  <ItemGroup>
+   <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+</ItemGroup>
 
 </Project>

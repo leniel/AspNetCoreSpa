@@ -3,25 +3,29 @@ using System;
 using AspNetCoreSpa.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspNetCoreSpa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180507210527_initial")]
-    partial class initial
+    [Migration("20180515221609_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029");
+                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AspNetCoreSpa.Server.Entities.ApplicationRole", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -39,7 +43,8 @@ namespace AspNetCoreSpa.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -47,7 +52,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("AspNetCoreSpa.Server.Entities.ApplicationUser", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount");
 
@@ -99,7 +105,8 @@ namespace AspNetCoreSpa.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -107,7 +114,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("AspNetCoreSpa.Server.Entities.ApplicationUserPhoto", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ApplicationUserId");
 
@@ -126,7 +134,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("AspNetCoreSpa.Server.Entities.Culture", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
 
@@ -138,7 +147,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("AspNetCoreSpa.Server.Entities.Resource", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CultureId");
 
@@ -156,7 +166,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -174,7 +185,8 @@ namespace AspNetCoreSpa.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -364,7 +376,8 @@ namespace AspNetCoreSpa.Migrations
                     b.HasIndex("AuthorizationId");
 
                     b.HasIndex("ReferenceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ReferenceId] IS NOT NULL");
 
                     b.ToTable("OpenIddictTokens");
                 });

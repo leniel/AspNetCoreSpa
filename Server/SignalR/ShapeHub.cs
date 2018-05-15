@@ -1,6 +1,5 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
 
 namespace AspNetCoreSpa.Server.SignalR
 {

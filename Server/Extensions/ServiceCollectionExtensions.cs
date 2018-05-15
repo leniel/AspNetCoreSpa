@@ -3,12 +3,10 @@ using AspNetCoreSpa.Server.Entities;
 using AspNetCoreSpa.Server.Filters;
 using AspNetCoreSpa.Server.Middlewares.EntityFrameworkLocalizer;
 using AspNetCoreSpa.Server.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
@@ -16,6 +14,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AspNetCoreSpa.Server.Extensions
 {
@@ -39,17 +39,21 @@ namespace AspNetCoreSpa.Server.Extensions
         }
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services)
         {
-            services.AddMvc(options =>
+            services.AddMvcCore(options =>
             {
                 options.Filters.Add(typeof(ModelValidationFilter));
+                
             })
+            .AddJsonFormatters()
+            .AddApiExplorer()
             .AddJsonOptions(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             })
-            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            //.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             return services;
         }
         public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
@@ -175,13 +179,13 @@ namespace AspNetCoreSpa.Server.Extensions
                {
                    options.ConsumerKey = Startup.Configuration["Authentication:Twitter:ConsumerKey"];
                    options.ConsumerSecret = Startup.Configuration["Authentication:Twitter:ConsumerSecret"];
-               })
-               // https://apps.dev.microsoft.com/?mkt=en-us#/appList
-               .AddMicrosoftAccount(options =>
-               {
-                   options.ClientId = Startup.Configuration["Authentication:Microsoft:ClientId"];
-                   options.ClientSecret = Startup.Configuration["Authentication:Microsoft:ClientSecret"];
                });
+               // https://apps.dev.microsoft.com/?mkt=en-us#/appList
+               //.AddMicrosoftAccount(options =>
+               //{
+               //    options.ClientId = Startup.Configuration["Authentication:Microsoft:ClientId"];
+               //    options.ClientSecret = Startup.Configuration["Authentication:Microsoft:ClientSecret"];
+               //});
 
             return services;
         }
@@ -192,18 +196,20 @@ namespace AspNetCoreSpa.Server.Extensions
             {
                 string useSqLite = Startup.Configuration["Data:useSqLite"];
                 string useInMemory = Startup.Configuration["Data:useInMemory"];
-                if (useInMemory.ToLower() == "true")
-                {
-                    options.UseInMemoryDatabase("AspNetCoreSpa"); // Takes database name
-                }
-                else if (useSqLite.ToLower() == "true")
-                {
-                    options.UseSqlite(Startup.Configuration["Data:SqlLiteConnectionString"]);
-                }
-                else
-                {
+
+                //if (useInMemory.ToLower() == "true")
+                //{
+                //    options.UseInMemoryDatabase("AspNetCoreSpa"); // Takes database name
+                //}
+                //else if (useSqLite.ToLower() == "true")
+                //{
+                //    options.UseSqlite(Startup.Configuration["Data:SqlLiteConnectionString"]);
+                //}
+                //else
+                //{
                     options.UseSqlServer(Startup.Configuration["Data:SqlServerConnectionString"]);
-                }
+                //}
+
                 options.UseOpenIddict();
             });
             return services;

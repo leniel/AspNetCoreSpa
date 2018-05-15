@@ -129,10 +129,16 @@ namespace AspNetCoreSpa.Server.Extensions
             try
             {
                 var context = app.ApplicationServices.GetService<ApplicationDbContext>();
+
                 context.Database.Migrate();
+
                 new SeedDbData(context, app);
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
             return app;
         }
 
